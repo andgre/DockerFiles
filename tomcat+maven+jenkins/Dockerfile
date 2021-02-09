@@ -30,12 +30,8 @@ RUN cd /home/maven/jenkins/ && \
     cp ./war/target/jenkins.war /var/lib/tomcat9/webapps/ && \
     sed -i 's/<\/Context>/<Environment name="JENKINS_HOME" value="\/home\/jenkins\/" type="java.lang.String"\/><\/Context>/' /var/lib/tomcat9/conf/context.xml
 
-# RUN git clone https://github.com/venkaDaria/puzzle15.git && \
-#    cd ./puzzle15 && \
-#    sed  -i 's/<\/project>/<properties><maven.compiler.source>1.8<\/maven.compiler.source><maven.compiler.target>1.8<\/maven.compiler.target><\/properties><\/project>/' pom.xml && \
-#    mvn package && \
-#    cp ./target/Puzzle15-1.0-SNAPSHOT.war /var/lib/tomcat9/webapps/
+
 
 EXPOSE 8080
 
-ENTRYPOINT ["catalina.sh", "r
+ENTRYPOINT ["catalina.sh", "run"]
