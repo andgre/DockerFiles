@@ -8,8 +8,8 @@ RUN  apk -U upgrade --update && \
 
 ENV TOMCAT_MAJOR=9 \
     TOMCAT_VERSION=9.0.43 \
-    CATALINA_HOME=/opt/tomcat \
-    PATH=$CATALINA_HOME/bin:$PATH
+    CATALINA_HOME=/opt/tomcat
+ENV PATH $CATALINA_HOME/bin:$PATH
 
 RUN apk add curl && \
     apk add ttf-dejavu
