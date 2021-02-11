@@ -1,15 +1,13 @@
 version: '2'
 
 services:
+  development:
+    build: alpine.openjdk11.maven
+    volumes_from:
+      - production
   production:
     build: alpine.openjdk11.tomcat
     volumes:
       - ./war:/opt/war
     ports:
       - "8080:8080"
-
-  development:
-    build: alpine.openjdk11.maven
-    volumes_from:
-      - production
-
