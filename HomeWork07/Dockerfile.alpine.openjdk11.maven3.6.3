@@ -7,4 +7,13 @@ RUN  apk -U upgrade --update && \
         apk --no-cache add git && \
         apk --no-cache add bash
 
+RUN mkdir -p /opt/app && mkdir -p /opt/war && cd /opt/app && \
+    git clone https://github.com/venkaDaria/puzzle15.git && \
+    cd ./puzzle15 && \
+    sed  -i 's/<\/project>/<properties><maven.compiler.source>1.8<\/maven.compiler.source><maven.compiler.target>1.8<\/maven.compiler.target><\/properties><\/project>/' pom.xml && \
+    mvn package
+    #&& \
+    #cp ./target/Puzzle15-1.0-SNAPSHOT.war /var/lib/tomcat9/webapps/
+
+
 ENTRYPOINT ["/bin/sh", "-c", "/bin/bash"]
