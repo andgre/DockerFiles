@@ -1,7 +1,6 @@
 FROM alpine:latest
 
-echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/
-
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 RUN  apk -U upgrade --update && \
         apk --no-cache add openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community && \
         apk --no-cache add bash
@@ -12,8 +11,7 @@ ENV TOMCAT_MAJOR=9 \
     CATALINA_HOME=/opt/tomcat \
     PATH=$CATALINA_HOME/bin:$PATH
 
-RUN apk -U upgrade --update && \
-    apk add curl && \
+RUN apk add curl && \
     apk add ttf-dejavu
 
 RUN mkdir -p /opt
