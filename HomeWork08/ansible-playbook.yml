@@ -1,10 +1,10 @@
 ---
-- name: Sync TimeZone
+- name: Set TimeZone
   hosts: all
   become: yes
 
   tasks:
-    - name: Sync TimeZone command
+    - name: Set TimeZone cmd
       shell:
         cmd: ln -snf /usr/share/zoneinfo/Europe/Moscow /etc/localtime && echo "Europe/Moscow" > /etc/timezone
 
@@ -13,8 +13,9 @@
   become: yes
 
   tasks:
-    - name: Ensure nginx is present
+    - name: Ensure Dev-app are present
       apt:
+
         name: nginx
         state: present
     - name: Ensure index.html is present
