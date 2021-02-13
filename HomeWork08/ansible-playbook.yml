@@ -1,6 +1,15 @@
 ---
-- name: install nginx
-  hosts: web
+- name: Sync TimeZone
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Sync TimeZone command
+      shell:
+        cmd: ln -snf /usr/share/zoneinfo/Europe/Moscow /etc/localtime && echo "Europe/Moscow" > /etc/timezone
+
+- name: install dev enviroment
+  hosts: dev
   become: yes
 
   tasks:
