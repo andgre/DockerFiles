@@ -1,2 +1,0 @@
-docker run -it   -v /var/lib/lxcfs/proc/meminfo:/proc/meminfo --memory="128M" -v /var/lib/lxcfs/proc/cpuinfo:/proc/cpuinfo --cpuset-cpus 0 myimg  cat /proc/cpuinfo
-
