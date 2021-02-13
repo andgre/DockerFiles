@@ -2,22 +2,30 @@
 - name: Set TimeZone
   hosts: all
   become: yes
-
   tasks:
     - name: Set TimeZone cmd
       shell:
-        cmd: ln -snf /usr/share/zoneinfo/Europe/Moscow /etc/localtime && echo "Europe/Moscow" > /etc/timezone
+        cmd: >
+         if grep  -v 'Moscow' /etc/timezone;
+         then ln -snf /usr/share/zoneinfo/Europe/Moscow /etc/localtime &&
+         echo "Europe/Moscow" > /etc/timezone; fi
 
 - name: install dev enviroment
   hosts: dev
   become: yes
-
   tasks:
     - name: Ensure Dev-app are present
       apt:
+        pkg:
+          - default-jdk
+          - maven
+          - git
+        update_cache: yes
+        state: latest
 
-        name: nginx
-        state: present
+
+ #       name: nginx
+  #      state: present
     - name: Ensure index.html is present
       copy:
         src: index.html
