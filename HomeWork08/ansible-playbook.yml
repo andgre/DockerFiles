@@ -62,7 +62,7 @@
       #delegate_to: 35.228.97.111
       #################################################################
       ## this one is the shortest
-      #shell: scp root@35.228.242.166:/opt/opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war /var/lib/tomcat9/webapps/
+      #shell: scp root@35.228.242.166:/opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war /var/lib/tomcat9/webapps/
       copy:
         src: /opt/35.228.242.166/opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war
         dest: /var/lib/tomcat9/webapps
