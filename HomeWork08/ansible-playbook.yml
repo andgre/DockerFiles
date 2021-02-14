@@ -11,10 +11,7 @@
     - name: update timezone
       command: dpkg-reconfigure --frontend noninteractive tzdata
 
-
-
-
-- name: install dev enviroment
+- name: install Dev enviroment
   hosts: dev
   become: yes
   tasks:
@@ -27,29 +24,22 @@
         update_cache: yes
         state: latest
 
-
- #       name: nginx
-  #      state: present
-    - name: Ensure index.html is present
-      copy:
-        src: index.html
-        dest: /var/www/html
-    - name: Ensure nginx service is started
-      service:
-        name: nginx
-        state: started
-
-- name: install db
-  hosts: db
+- name: install Prod enviroment
+  hosts: prod
   become: yes
-
-
   tasks:
-    - name: Ensure postgresql is present
+    - name: Ensure Prod-app are present
       apt:
-        name: postgresql
-        state: present
-    - name: Ensure postegresql service started
+        pkg:
+          - tomcat9
+          - git
+        update_cache: yes
+        state: latest
+    - name: Ensure tomcat are started
       service:
-        name: postgresql
+        name: tomcat9
         state: started
+  tags:
+   - tomcat9
+
+
