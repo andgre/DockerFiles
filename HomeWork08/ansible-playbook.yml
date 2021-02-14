@@ -51,7 +51,7 @@
         name: tomcat9
         state: started
     - name: Push war artifact
-      ## Two methods below need to configuration pub ssh keys
+      ## Two methods below need to set up public key authentication
       #synchronize:
       #  mode: pull
       #  src: rsync://opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war
