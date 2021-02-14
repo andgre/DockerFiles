@@ -53,8 +53,10 @@
     - name: Push war artifact
       #synchronize:
       #  mode: pull
-      #  src: rsync://35.228.242.166/root/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war
+      #  src: rsync://opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war
       #  dest: /var/lib/tomcat9/webapps/
+      #rsync_opts:
+      #  - "-e ssh "
       #delegate_to: 35.228.97.111
       copy:
         src: /opt/35.228.242.166/opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war
