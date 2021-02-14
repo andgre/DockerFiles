@@ -3,12 +3,16 @@
   hosts: all
   become: yes
   tasks:
-    - name: Set TimeZone cmd
-      shell:
-        cmd: >
-         if grep  -v 'Moscow' /etc/timezone;
-         then ln -snf /usr/share/zoneinfo/Europe/Moscow /etc/localtime &&
-         echo "Europe/Moscow" > /etc/timezone; fi
+    - name: Set timezone variables
+      copy:
+        src: /etc/timezone
+        dest: /etc/timezone
+  handlers:
+    - name: update timezone
+      command: dpkg-reconfigure --frontend noninteractive tzdata
+
+
+
 
 - name: install dev enviroment
   hosts: dev
