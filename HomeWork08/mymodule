@@ -38,3 +38,11 @@ case $phase in
         ;;
     *)
         printf '{"failed": true, "msg": "invalid phase: %s"}' "$phase"
+         exit 1
+                ;;
+        esac
+
+        printf '{"changed": %s, "msg": "%s", "contents": %s}' "$changed" "$msg" "$contents"
+
+        exit 0
+
