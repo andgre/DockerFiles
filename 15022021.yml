@@ -1,0 +1,16 @@
+- name: add several users
+  user:
+    name: "{{ item }}"
+    group: "wheel"
+    state: present
+  with_items:
+    - user1
+    - user2
+    - user3
+- name: install many packages
+  apt: name={{ item }} state=installed
+  with_items:
+    - nginx
+    - mc
+    - python
+
