@@ -12,7 +12,7 @@ function mvn_package
                         msg="change dir"
                         output=$(mvn $phase 2>&1 | python -c 'import json,sys; print json.dumps(sys.stdin.read())')
                         if [ $? -ne 0 ]; then
-                                printf '{"failed": true, "msg": "error error command: mvn package", "output": %s}' "$output"
+                                printf '{"failed": true, "msg": "error command ", "output": %s}' "$output"
                                 exit 1
                         fi
        else
