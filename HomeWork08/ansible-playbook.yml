@@ -52,14 +52,12 @@
         state: started
     - name: Push war artifact
       ## Two methods below need to set up public key authentication
+      ## [dev]#35.228.242.166  ##[prod]#35.228.97.111
       #synchronize:
-      #  mode: pull
-      #  src: rsync://opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war
-      #  dest: /var/lib/tomcat9/webapps/
-      #rsync_opts:
-      #  - "-vz"
-      #  - "-e ssh"
-      #delegate_to: 35.228.97.111
+      #  mode: push
+      #  src: /opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war
+      #  dest: /var/lib/tomcat9/webapps/Puzzle15-1.0-SNAPSHOT.war
+      #delegate_to: 35.228.242.166
       #################################################################
       ## this one is the shortest
       #shell: scp root@35.228.242.166:/opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war /var/lib/tomcat9/webapps/
