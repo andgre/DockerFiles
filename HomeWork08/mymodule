@@ -6,7 +6,7 @@ function mvn_package
                         cd $dest
                         changed="true"
                         msg="change dir"
-                        output=$(mvn package 2>&1 | python -c 'import json,sys; print json.dumps(sys.stdin.read())')
+                        output=$(mvn $phase 2>&1 | python -c 'import json,sys; print json.dumps(sys.stdin.read())')
                         if [ $? -ne 0 ]; then
                                 printf '{"failed": true, "msg": "error error command: mvn package", "output": %s}' "$output"
                                 exit 1
@@ -33,14 +33,15 @@ changed="false"
 msg=""
 contents=""
 
-case $phase in
-    package)
-        mvn_package
-        ;;
-    *)
-        printf '{"failed": true, "msg": "invalid phase: %s"}' "$phase"
-        exit 1
-        ;;
-esac
+#case $phase in
+#    package)
+#        mvn_package
+#        ;;
+#    *)
+#        printf '{"failed": true, "msg": "invalid phase: %s"}' "$phase"
+#        exit 1
+#        ;;
+#esac
+mvn_package
 printf '{"changed": %s, "msg": "%s", "contents": %s}' "$changed" "$msg" "$output"
 exit 0
