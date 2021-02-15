@@ -38,10 +38,10 @@
         line: <properties><maven.compiler.source>1.8</maven.compiler.source><maven.compiler.target>1.8</maven.compiler.target></properties></project>
       when: not app_war.stat.exists
     - name: build app
-      command: "mvn package"
+      command: "mvn war:war"
       args:
         chdir: "/opt/myapp/"
-      when: not app_war.stat.exists
+      #when: not app_war.stat.exists
     - name: Pull war artifact
       fetch:
         src: /opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
