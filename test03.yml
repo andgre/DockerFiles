@@ -1,0 +1,20 @@
+---
+- name: install nginx
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Ensure nginx is present
+      apt:
+        name: nginx
+        state: present
+    - name: change index.html
+      lineinfile:
+        path: /var/www/html/index.nginx-debian.html
+        regexp: '^<h1>Welcome to nginx!</h1>'
+        line: <script> document.write(new Date().toLocaleDateString()); </script>
+    - name: Ensure nginx service is started
+      service:
+        name: nginx
+        state: started
+  ~
