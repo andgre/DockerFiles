@@ -3,8 +3,6 @@
 function mvn_package
     {
             if [ -d "$dest" ]; then
-                if [ -d "$dest/target" ] && [ -z "$dest/target/" ]; then
-
                 fi
                         cd $dest
                         changed="true"
