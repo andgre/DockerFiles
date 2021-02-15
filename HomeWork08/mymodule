@@ -1,5 +1,9 @@
 #!/bin/bash
-
+### Check using bash
+# echo 'dest=/opt/myapp phase="clean war:war"' > args
+# bash -x mymodule args
+### test in ansible
+# ansible -c local -i 'localhost,'  -M . -m mymodule -a  'dest=/opt/myapp phase="war:war"' all
 function mvn_package
   {
             if [ -d "$dest" ]; then
