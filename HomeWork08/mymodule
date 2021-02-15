@@ -3,6 +3,9 @@
 function mvn_package
     {
             if [ -d "$dest" ]; then
+                if [ -d "$dest/target" ] && [ -z "$dest/target/" ]; then
+
+                fi
                         cd $dest
                         changed="true"
                         msg="change dir"
@@ -14,7 +17,7 @@ function mvn_package
        else
                 changed="false"
                 msg="directory does not exists"
-                contents='""
+                contents='""'
                 exit 1
        fi
     }
