@@ -22,7 +22,7 @@
           - git
         update_cache: yes
         state: latest
-    - name: Is artifact exist
+    - name: Is artifact exists
       stat:
         path: /opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
       register: app_war
