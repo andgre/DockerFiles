@@ -8,7 +8,7 @@ function mvn_package
                         msg="change dir"
                         output=$(mvn package 2>&1 | python -c 'import json,sys; print json.dumps(sys.stdin.read())')
                         if [ $? -ne 0 ]; then
-                                printf '{"failed": true, "msg": "error error command: mvn package", "output": %s}' "$output"
+                                printf '{"failed": true, "msg": "error command: mvn package", "output": %s}' "$output"
                                 exit 1
                         fi
        else
@@ -16,13 +16,8 @@ function mvn_package
                 msg="directory does not exists"
                 contents='""
                 exit 1
-    fi
-
-
-  }
-
-
-
+       fi
+    }
 
 source $1
  if [ -z "$dest" ]; then
