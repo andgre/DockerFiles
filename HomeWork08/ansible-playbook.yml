@@ -18,21 +18,26 @@
     - name: Ensure Dev-apps are present
       apt:
         pkg:
-          - default-jdk
           - maven
           - git
         update_cache: yes
         state: latest
-    - name: Get and make test java app
-      shell: >
-        mkdir -p /opt/myapp && cd /opt/myapp && \
-        git clone https://github.com/venkaDaria/puzzle15.git && \
-        cd ./puzzle15 && \
-        sed  -i 's/<\/project>/<properties><maven.compiler.source>1.8<\/maven.compiler.source><maven.compiler.target>1.8<\/maven.compiler.target><\/properties><\/project>/' pom.xml && \
-        mvn package
+    - name: git clone java app
+      git:
+       repo: https://github.com/venkaDaria/puzzle15.git
+       dest: /opt/myapp
+    - name: change pom.xml
+      lineinfile:
+       path: /opt/myapp/pom.xml
+       regexp: '^</project>'
+       line: <properties><maven.compiler.source>1.8</maven.compiler.source><maven.compiler.target>1.8</maven.compiler.target></properties></project>
+    - name: build app
+      command: "mvn package"
+      args:
+       chdir: "/opt/myapp/"
     - name: Pull war artifact
       fetch:
-       src: /opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war
+       src: /opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
        dest: /opt
 
 - name: install Prod enviroment
@@ -55,14 +60,14 @@
       ## [dev]#35.228.242.166  ##[prod]#35.228.97.111
       #synchronize:
       #  mode: push
-      #  src: /opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war
+      #  src: /opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
       #  dest: /var/lib/tomcat9/webapps/Puzzle15-1.0-SNAPSHOT.war
       #delegate_to: 35.228.242.166
       #################################################################
       ## this one is the shortest
-      #shell: scp root@35.228.242.166:/opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war /var/lib/tomcat9/webapps/
+      #shell: scp root@35.228.242.166:/opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war /var/lib/tomcat9/webapps/
       copy:
-        src: /opt/35.228.242.166/opt/myapp/puzzle15/target/Puzzle15-1.0-SNAPSHOT.war
+        src: /opt/35.228.242.166/opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
         dest: /var/lib/tomcat9/webapps
 
 
