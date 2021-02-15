@@ -15,7 +15,7 @@
   hosts: dev
   become: yes
   tasks:
-    - name: Ensure Dev-app are present
+    - name: Ensure Dev-apps are present
       apt:
         pkg:
           - default-jdk
@@ -39,14 +39,14 @@
   hosts: prod
   become: yes
   tasks:
-    - name: Ensure Prod-app are present
+    - name: Ensure Prod-apps are present
       apt:
         pkg:
           - tomcat9
           - git
         update_cache: yes
         state: latest
-    - name: Ensure tomcat are started
+    - name: Ensure tomcat is started
       service:
         name: tomcat9
         state: started
