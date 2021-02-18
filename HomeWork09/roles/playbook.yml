@@ -1,7 +1,21 @@
 ---
-- hosts: all
+- name: Set TimeZone Moscow for all hosts
+  hosts: all
   roles:
     - yatesr.timezone
-
   vars:
     timezone: Europe/Moscow
+
+- name: development configuration
+  hosts: dev
+  become: yes
+  roles:
+    - default
+    - dev
+
+- name: production configuration
+  hosts: prod
+  become: yes
+  roles:
+    - default
+    - prod

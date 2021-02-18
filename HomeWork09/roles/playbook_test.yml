@@ -1,3 +1,7 @@
+---
+#ansible-galaxy install -r requirements.yml
+#ansible-playbook playbook.yml -i inventor
+
 - name: Default Configuration
   hosts: all
   gather_facts: no
