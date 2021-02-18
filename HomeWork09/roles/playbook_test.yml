@@ -1,0 +1,13 @@
+- name: Default Configuration
+  hosts: all
+  gather_facts: no
+- become: yes
+  tasks:
+    - name: Set timezone variables
+      copy:
+        src: /etc/timezone
+        dest: /etc/timezone
+      notify: update timezone
+  handlers:
+    - name: update timezone
+      command: dpkg-reconfigure --frontend noninteractive tzdata
