@@ -2,29 +2,29 @@
 # tasks file for dev
     - name: Ensure Dev-apps are present
       apt:
-        pkg: {{packages}}
+        pkg: "{{packages}}"
         update_cache: yes
         state: latest
     - name: Is artifact exists
       stat:
-        path: {{path_app}}/target/{{app_war}}
+        path: "{{path_app}}/target/{{app_war}}"
       register: app_war
     - name: git clone java app
       git:
-        repo: {{git_repo}}
-        dest: {{path_app}}
+        repo: "{{git_repo}}"
+        dest: "{{path_app}}"
       when: not app_war.stat.exists
     - name: change pom.xml
       lineinfile:
-        path: {{path_app}}/pom.xml
+        path: "{{path_app}}/pom.xml"
         regexp: '^</project>'
         line: <properties><maven.compiler.source>1.8</maven.compiler.source><maven.compiler.target>1.8</maven.compiler.target></properties></project>
       when: not app_war.stat.exists
     - name: build app
       command: "mvn war:war"
       args:
-        chdir: {{path_app}}
+        chdir: "{{path_app}}"
     - name: Pull war artifact
       fetch:
-        src: {{path_app}}/target/{{app_war}}
-        dest: {{path_app}}
+        src: "{{path_app}}/target/{{app_war}}"
+        dest: "{{path_app}}"
