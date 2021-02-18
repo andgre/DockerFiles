@@ -7,6 +7,7 @@
       copy:
         src: /etc/timezone
         dest: /etc/timezone
+      notify: update timezone
   handlers:
     - name: update timezone
       command: dpkg-reconfigure --frontend noninteractive tzdata

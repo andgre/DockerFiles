@@ -1,0 +1,15 @@
+- name: development configuration
+  hosts: dev
+  become: yes
+  roles:
+   - default
+   - dev
+   - security
+
+- name: production configuration
+  hosts: prod
+  become: yes
+  roles:
+   - default
+   - prod
+   - security
