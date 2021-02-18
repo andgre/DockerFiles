@@ -1,2 +1,15 @@
 ---
 # tasks file for prod
+    - name: Ensure Prod-apps are present
+      apt:
+        pkg: "{{packages}}"
+        update_cache: yes
+        state: latest
+    - name: Ensure tomcat is started
+      service:
+        name: "{{packages}}"
+        state: started
+    - name: Push war artifact
+      copy:
+        src: "{{path_app}}"
+        dest: "{{dest}}"

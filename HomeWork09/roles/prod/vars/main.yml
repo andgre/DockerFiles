@@ -1,2 +1,5 @@
 ---
 # vars file for prod
+packages: tomcat9
+path_app: /opt/myapp/35.228.97.111/opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
+dest: /var/lib/tomcat9/webapps
