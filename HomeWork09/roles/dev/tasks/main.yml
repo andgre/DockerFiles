@@ -7,24 +7,24 @@
         state: latest
     - name: Is artifact exists
       stat:
-        path: "{{path_app}}/target/{{app_war}}"
-      register: app_war
+        path: "{{path_app}}{{app_war}}"
+      register: app_war_ex
     - name: git clone java app
       git:
         repo: "{{git_repo}}"
         dest: "{{path_app}}"
-      when: not app_war.stat.exists
+      when: not app_war_ex.stat.exists
     - name: change pom.xml
       lineinfile:
         path: "{{path_app}}/pom.xml"
         regexp: '^</project>'
         line: <properties><maven.compiler.source>1.8</maven.compiler.source><maven.compiler.target>1.8</maven.compiler.target></properties></project>
-      when: not app_war.stat.exists
+      when: not app_war_ex.stat.exists
     - name: build app
       command: "mvn war:war"
       args:
         chdir: "{{path_app}}"
-    - name: Pull war artifact
+    - name: Pull war artifact "{{path_app}}{{app_war}}"
       fetch:
-        src: "{{path_app}}/target/{{app_war}}"
+        src: "{{path_app}}{{app_war}}"
         dest: "{{path_app}}"
