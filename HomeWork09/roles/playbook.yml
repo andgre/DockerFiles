@@ -12,6 +12,7 @@
   roles:
     - default
     - dev
+    - gantsign.maven
 
 - name: production configuration
   hosts: prod
@@ -19,3 +20,4 @@
   roles:
     - default
     - prod
+
