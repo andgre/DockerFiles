@@ -1,2 +1,5 @@
 ---
 # vars file for default
+packages:
+  - git
+  - openjdk-11*

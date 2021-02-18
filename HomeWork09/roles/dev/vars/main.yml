@@ -1,2 +1,6 @@
 ---
 # vars file for dev
+path_app: /opt/myapp/
+app_war: Puzzle15-1.0-SNAPSHOT.war
+git_repo: https://github.com/venkaDaria/puzzle15.git
+
