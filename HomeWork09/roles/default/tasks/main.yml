@@ -1,2 +1,6 @@
 ---
 # tasks file for default
+- name: "Just for visibility  - loop through list from a variable"
+  debug:
+    msg: "An item: {{ item }}"
+  with_items: "{{ somelist }}"

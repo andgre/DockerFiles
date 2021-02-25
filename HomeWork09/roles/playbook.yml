@@ -3,6 +3,7 @@
   hosts: all
   roles:
     - yatesr.timezone
+    - default
   vars:
     timezone: Europe/Moscow
 
@@ -10,7 +11,6 @@
   hosts: dev
   become: yes
   roles:
-    - default
     - dev
 #    - gantsign.maven
 
@@ -18,6 +18,5 @@
   hosts: prod
   become: yes
   roles:
-    - default
     - prod
 

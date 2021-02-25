@@ -1,7 +1,8 @@
 #On jenkins master I needed
-#/etc/docker/registry/config.yml:  
+#echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+#/etc/docker/registry/config.yml:
 #auth:
-#htpasswd:  
+#htpasswd:
 #realm: basic-realm  
 #path: /etc/docker/registry/.htpasswd  
 #htpasswd -Bbn admin admin > /etc/docker/registry/.htpasswd  

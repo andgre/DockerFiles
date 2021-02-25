@@ -1,2 +1,6 @@
 ---
 # vars file for default
+somelist:
+  - num01
+  - num02
+  - num03
