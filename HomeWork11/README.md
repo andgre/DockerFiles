@@ -1,14 +1,15 @@
-# On jenkins master I needed 
+#On jenkins master I needed  
 
+#
 #/etc/docker/registry/config.yml: 
 #auth:
-#  htpasswd:
-#   realm: basic-realm
-#   path: /etc/docker/registry/.htpasswd
-
+# htpasswd:
+#realm: basic-realm
+#path: /etc/docker/registry/.htpasswd
+#
 #htpasswd -Bbn admin admin > /etc/docker/registry/.htpasswd
 #systemctl restart docker-registry
-# chmod 777 /var/run/docker.sock
+#chmod 777 /var/run/docker.sock
 #docker build --tag=docker-agent .
 #docker tag docker-agent:latest  172.17.0.1:5000/docker-agent:latest
 #docker push  172.17.0.1:5000/docker-agent:latest
