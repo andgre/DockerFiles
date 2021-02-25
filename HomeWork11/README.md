@@ -1,7 +1,7 @@
 #On jenkins master I needed
 #/etc/docker/registry/config.yml:  
 #auth:
-# htpasswd:  
+#htpasswd:  
 #realm: basic-realm  
 #path: /etc/docker/registry/.htpasswd  
 #htpasswd -Bbn admin admin > /etc/docker/registry/.htpasswd  
