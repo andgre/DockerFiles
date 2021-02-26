@@ -1,14 +1,14 @@
-#On jenkins master I needed
-#echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-#/etc/docker/registry/config.yml:
-#auth:
-#htpasswd:
-#realm: basic-realm  
-#path: /etc/docker/registry/.htpasswd  
-#htpasswd -Bbn admin admin > /etc/docker/registry/.htpasswd  
-#systemctl restart docker-registry  
-#chmod 777 /var/run/docker.sock  
-#docker build --tag=docker-agent .  
-#docker tag docker-agent:latest  172.17.0.1:5000/docker-agent:latest  
-#docker push  172.17.0.1:5000/docker-agent:latest  
+
+echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+chmod 777 /var/run/docker.sock
+/etc/docker/registry/config.yml:
+##auth:
+##htpasswd:
+##realm: basic-realm
+##path: /etc/docker/registry/.htpasswd
+##htpasswd -Bbn admin admin > /etc/docker/registry/.htpasswd
+systemctl restart docker-registry
+docker build --tag=docker-agent .
+docker tag docker-agent:latest  172.17.0.1:5000/docker-agent:latest
+docker push  172.17.0.1:5000/docker-agent:latest
 

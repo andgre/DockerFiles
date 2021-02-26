@@ -1,8 +1,7 @@
 pipeline {
   agent {
-
     docker {
-      image '172.17.0.1:5000/docker-agent:latest'
+      image '10.166.0.10:5000/docker-agent:latest'
             args '-u root:sudo --privileged -v /var/run/docker.sock:/var/run/docker.sock'
             }
          }
@@ -20,17 +19,18 @@ pipeline {
       }
     }
 
-    stage('Make docker image') {
+    stage('Preparations and Make docker image') {
       steps {
+        sh 'ssh-keyscan -H 10.166.0.10 >> ~/.ssh/known_hosts'
+        sh 'scp root@10.166.0.10:/root/prod/Dockerfile /root/docker/Dockerfile'
         sh 'cp ./target/hello-1.0.war /root/docker/hello-1.0.war && cd /root/docker/ && docker build --tag=prodserv .'
-        sh 'cd /root/docker/ && cat my_password.txt | docker login --username admin --password-stdin 172.17.0.1:5000'
-        sh 'docker tag prodserv 172.17.0.1:5000/prodserv && docker push 172.17.0.1:5000/prodserv'
+        sh 'docker tag prodserv 10.166.0.10:5000/prodserv && docker push 10.166.0.10:5000/prodserv'
       }
     }
 
     stage('Run docker prodserver') {
       steps {
-        sh 'docker pull 172.17.0.1:5000/prodserv && docker run -d -p 8081:8081 prodserv '
+        sh 'docker pull 10.166.0.10:5000/prodserv && docker run -d -p 80:80 prodserv '
       }
     }
   }
