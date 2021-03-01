@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   dev:
     build:
@@ -9,6 +9,7 @@ services:
     depends_on:
       - db
 
+
   prod:
     build:
       context: .
@@ -17,19 +18,23 @@ services:
       - dev
     ports:
       - "8080:8080"
-    networks:
-      - mysql_net
     volumes:
       - mysqlapp-volume:/opt/tomcat/webapps/
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.2
+
 
   db:
-    image: mysql:8.0
+    image: mysql:5.7
     container_name: db
     restart: unless-stopped
     ports:
       - "3306:3306"
     networks:
-      - mysql_net
+      vpcbr:
+        ipv4_address: 10.5.0.3
+
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: webapp
@@ -41,5 +46,9 @@ volumes:
   mysqlapp-volume: {}
 
 networks:
-  mysql_net:
+  vpcbr:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
