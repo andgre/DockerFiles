@@ -9,7 +9,6 @@ services:
     depends_on:
       - db
 
-
   prod:
     build:
       context: .
@@ -23,7 +22,6 @@ services:
     networks:
       vpcbr:
         ipv4_address: 10.5.0.2
-
 
   db:
     image: mysql:5.7
