@@ -10,7 +10,9 @@ RUN  apk -U upgrade --update && \
 RUN mkdir -p /opt/myapp && cd /opt/myapp && \
     git clone https://github.com/shephertz/App42PaaS-Java-MySQL-Sample.git
 COPY dev/Config.properties /opt/myapp/App42PaaS-Java-MySQL-Sample/WebContent/Config.properties
-RUN   cd /opt/myapp/App42PaaS-Java-MySQL-Sample/ &&  mvn package
+RUN   cd /opt/myapp/App42PaaS-Java-MySQL-Sample/ && \
+      sed  -i 's/<version>5.1.8<\/version>/<version>8.0.16<\/version>/g' pom.xml && \
+      mvn package
 
 #COPY run.sh /run.sh
 #ENTRYPOINT ["/bin/sh", "-c", "/run.sh"]
