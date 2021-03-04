@@ -71,10 +71,6 @@
       command: "mvn war:war"
       args:
         chdir: "/opt/myapp/"
-        #    - name: basic upload
-        #      s3_sync:
-        #        bucket: mybacket10.test101.com
-        #        file_root: roles/s3/files/
     - name: Push the artifact to s3
       command: "{{ item }} chdir=/opt/myapp/target"
       with_items:
