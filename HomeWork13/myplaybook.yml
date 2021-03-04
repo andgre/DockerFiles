@@ -99,6 +99,6 @@
       with_items:
         - aws s3 cp  s3://mybacket10.test101.com/hello-1.0.war hello-1.0.war
       environment:
-        - AWS_ACCESS_KEY_ID: {{ AWS_ACCESS_KEY_ID }}
-        - AWS_SECRET_ACCESS_KEY: {{ AWS_SECRET_ACCESS_KEY }}
+        - AWS_ACCESS_KEY_ID: "{{ AWS_ACCESS_KEY_ID }}"
+        - AWS_SECRET_ACCESS_KEY: "{{ AWS_SECRET_ACCESS_KEY }}"
 
