@@ -71,6 +71,22 @@
       args:
         chdir: "/opt/myapp/"
 
+- name: install Prod enviroment
+  hosts: prod
+  become: yes
+  tasks:
+    - name: Ensure Prod-apps are present
+      apt:
+        pkg:
+          - tomcat9
+        update_cache: yes
+        state: latest
+    - name: Ensure tomcat is started
+      service:
+        name: tomcat9
+        state: started
+
+
 
 #- name: Terminate instances
 #  hosts: localhost
@@ -80,10 +96,7 @@
 #        state: 'absent'
 #        region: us-east-2
 #        instance_ids: '{{ ec2.instance_ids }}'
-#    - name: Terminate instances that were previously launched '{{ ec2.instance_ids }}'
-#      ec2:
-#        state: 'absent'
-#        region: us-east-1
-#        instance_ids: '{{ ec2.instance_ids }}'
+#      loop: "{{ ec2.instances }}"
+
 
 
