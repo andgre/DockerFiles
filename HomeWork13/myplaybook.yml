@@ -76,8 +76,8 @@
       with_items:
         - aws s3 cp hello-1.0.war s3://mybacket10.test101.com
       environment:
-        - AWS_ACCESS_KEY_ID: AKIAQ2H45LRAQBU7SDH4
-        - AWS_SECRET_ACCESS_KEY: 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
+        - AWS_ACCESS_KEY_ID: XXXXXXXXX
+        - AWS_SECRET_ACCESS_KEY: XXXXXXXXXXX
 
 - name: install Prod enviroment
   hosts: prod
@@ -99,6 +99,6 @@
       with_items:
         - aws s3 cp  s3://mybacket10.test101.com/hello-1.0.war hello-1.0.war
       environment:
-        - AWS_ACCESS_KEY_ID: AKIAQ2H45LRAQBU7SDH4
-        - AWS_SECRET_ACCESS_KEY: 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
+        - AWS_ACCESS_KEY_ID: XXXXXXXX
+        - AWS_SECRET_ACCESS_KEY: XXXXXXXXXXX
 
