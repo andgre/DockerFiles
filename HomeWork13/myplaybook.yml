@@ -60,6 +60,7 @@
         pkg:
           - maven
           - git
+          - awscli
         update_cache: yes
         state: latest
     - name: git clone java app
@@ -70,6 +71,17 @@
       command: "mvn war:war"
       args:
         chdir: "/opt/myapp/"
+        #    - name: basic upload
+        #      s3_sync:
+        #        bucket: mybacket10.test101.com
+        #        file_root: roles/s3/files/
+    - name: Push the artifact to s3
+      command: "{{ item }} chdir=/opt/myapp/target"
+      with_items:
+        - aws s3 cp hello-1.0.war s3://mybacket10.test101.com
+      environment:
+        - AWS_ACCESS_KEY_ID: AKIAQ2H45LRAQBU7SDH4
+        - AWS_SECRET_ACCESS_KEY: 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
 
 - name: install Prod enviroment
   hosts: prod
@@ -79,24 +91,18 @@
       apt:
         pkg:
           - tomcat9
+          - awscli
         update_cache: yes
         state: latest
     - name: Ensure tomcat is started
       service:
         name: tomcat9
         state: started
-
-
-
-#- name: Terminate instances
-#  hosts: localhost
-#  tasks:
-#    - name: Terminate instances that were previously launched '{{ ec2.instance_ids }}'
-#      ec2:
-#        state: 'absent'
-#        region: us-east-2
-#        instance_ids: '{{ ec2.instance_ids }}'
-#      loop: "{{ ec2.instances }}"
-
-
+    - name: Pull the artifact from s3
+      command: "{{ item }} chdir=/var/lib/tomcat9/webapps/"
+      with_items:
+        - aws s3 cp  s3://mybacket10.test101.com/hello-1.0.war hello-1.0.war
+      environment:
+        - AWS_ACCESS_KEY_ID: AKIAQ2H45LRAQBU7SDH4
+        - AWS_SECRET_ACCESS_KEY: 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
 
