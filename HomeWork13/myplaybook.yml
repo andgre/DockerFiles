@@ -3,6 +3,12 @@
   hosts: localhost
   gather_facts: False
   tasks:
+    - name: Check VAR aws_access_key_id
+      debug:
+        msg: "{{ aws_access_key_id }}"
+    - name: Check VAR aws_secret_access_key
+      debug:
+        msg: "{{ aws_secret_access_key }}"
     - name: create AWS DEV instance
       ec2:
         instance_type: t2.micro
@@ -15,18 +21,18 @@
         vpc_subnet_id: subnet-9ec182d2
         assign_public_ip: yes
       register: ec2
-    - name: Add new instances to host group
+    - name: Add new dev instances to host group
       add_host:
         hostname: "{{ item.public_ip }}"
         groupname: dev
         ansible_ssh_private_key_file: 'Mykey19012021-1.pem'
         ansible_ssh_user: "ubuntu"
+        dev_ids: "{{ item.id }}"
       loop: "{{ ec2.instances }}"
-    - name: Wait for SSH to come up
-      wait_for_connection:
-        delay: 60
-        timeout: 300
-
+      register: devvars
+    - name: Check VAR dev_ids
+      debug:
+        msg: "{{ devvars.results.0.add_host.host_vars.dev_ids }}"
     - name: create AWS PROD instance
       ec2:
         instance_type: t2.micro
@@ -39,13 +45,14 @@
         vpc_subnet_id:  subnet-702d4a51
         assign_public_ip: yes
       register: ec2
-    - name: Add new instances to host group
+    - name: Add new prod instances to host group
       add_host:
         hostname: "{{ item.public_ip }}"
         groupname: prod
         ansible_ssh_private_key_file: 'Mykey04032021-1.pem'
         ansible_ssh_user: "ubuntu"
       loop: "{{ ec2.instances }}"
+
     - name: Wait for SSH to come up
       wait_for_connection:
         delay: 60
@@ -79,6 +86,16 @@
         - AWS_ACCESS_KEY_ID: "{{ aws_access_key_id }}"
         - AWS_SECRET_ACCESS_KEY: "{{ aws_secret_access_key }}"
 
+- name: Terminate dev instances
+  hosts: localhost
+  gather_facts: False
+  tasks:
+    - name: Terminate dev instances
+      ec2:
+        state: 'absent'
+        instance_ids: "{{ devvars.results.0.add_host.host_vars.dev_ids }}"
+        region: us-east-2
+
 - name: install Prod enviroment
   hosts: prod
   become: yes
@@ -101,4 +118,5 @@
       environment:
         - AWS_ACCESS_KEY_ID: "{{ aws_access_key_id }}"
         - AWS_SECRET_ACCESS_KEY: "{{ aws_secret_access_key }}"
+
 
