@@ -1,0 +1,1 @@
+ansible-playbook  -v  myplaybook.yml --extra-vars "aws_access_key_id=XXXXXXXXXXXXXX aws_secret_access_key=XXXXXXXXXXXXXXXXXXXXX"
