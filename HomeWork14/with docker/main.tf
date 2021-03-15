@@ -95,8 +95,7 @@ resource "google_compute_instance" "prod" {
 
   provisioner "remote-exec" {
     inline = [
-      "apt-get update",
-      "apt-get install -y docker.io",
+      "apt-get update && apt-get install -y docker.io",
       "docker build -t prodserv . &&  docker run -d -p 8080:8080 prodserv"
     ]
   }
