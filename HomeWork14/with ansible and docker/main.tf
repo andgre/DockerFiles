@@ -74,8 +74,9 @@ resource "google_compute_instance" "prod" {
   }
 }
 
-/*
+
 resource "google_compute_instance" "dev" {
+ current_status       = "RUNNING"
  name         = "instance-dev-001"
  machine_type = "e2-medium"
  zone         = "europe-north1-a"
@@ -90,7 +91,6 @@ resource "google_compute_instance" "dev" {
      // Include this section to give the VM an external ip address
    }
 }
-desired_status = "TERMINATED"
 }
-*/
+
 

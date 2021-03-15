@@ -43,6 +43,7 @@
       command: "mvn war:war"
       args:
         chdir: "/opt/myapp/"
+      #when: not app_war.stat.exists
     - name: Pull war artifact
       fetch:
         src: /opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
