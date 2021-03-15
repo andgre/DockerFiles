@@ -29,6 +29,11 @@ resource "google_compute_instance" "dev" {
       // Include this section to give the VM an external ip address
     }
   }
+  provisioner "remote-exec" {
+    inline = [
+      "uname -a",
+    ]
+  }
   connection {
     host        = google_compute_instance.dev.network_interface.0.access_config.0.nat_ip //self.network_interface[0].access_config[0].nat_ip
     type        = "ssh"
