@@ -56,20 +56,34 @@
       apt:
         pkg:
           - docker.io
+          - python3
+          - python3-pip
         update_cache: yes
         state: latest
+    - name: Pip install docker
+      command: "pip3 install docker"
     - name: Push war artifact
       copy:
         src: /opt/{{ dev_ip }}/opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
         dest: /root/
     - name: Push Dockerfile
       copy:
-        src: /root/Dockerfile
+        src: Dockerfile
         dest: /root/
-    - name: Build and Start docker container
-      command: "docker build -t prodserv . &&  docker run -d -p 8080:8080 prodserv"
-        args:
-          chdir: "~"
+    - name: Build image
+      docker_image:
+        name: prodimg
+        build:
+          path: /root
+        source: build
+        state: present
+    - name: Start docker container
+      docker_container:
+        name: prodcont
+        image: prodimg
+        state: started
+        ports:
+          - "8080:8080"
 
 
 

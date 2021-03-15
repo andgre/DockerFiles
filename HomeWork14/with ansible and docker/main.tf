@@ -61,6 +61,11 @@ resource "google_compute_instance" "prod" {
       // Include this section to give the VM an external ip address
     }
   }
+  provisioner "remote-exec" {
+    inline = [
+      "uname -a",
+    ]
+  }
   connection {
     host        = google_compute_instance.prod.network_interface.0.access_config.0.nat_ip //self.network_interface[0].access_config[0].nat_ip
     type        = "ssh"
@@ -68,13 +73,12 @@ resource "google_compute_instance" "prod" {
     private_key = "${file("~/.ssh/id_rsa")}"
     timeout     = "90s"
   }
-
   provisioner "local-exec" {
     command = "ansible-playbook -v playbook.yml --extra-vars 'dev_ip=${google_compute_instance.dev.network_interface.0.access_config.0.nat_ip} prod_ip=${google_compute_instance.prod.network_interface.0.access_config.0.nat_ip}'"
   }
 }
 
-
+/*
 resource "google_compute_instance" "dev" {
  current_status       = "RUNNING"
  name         = "instance-dev-001"
@@ -92,5 +96,5 @@ resource "google_compute_instance" "dev" {
    }
 }
 }
-
+*/
 
