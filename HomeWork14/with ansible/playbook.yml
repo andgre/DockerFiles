@@ -1,0 +1,72 @@
+---
+- name: Start
+  hosts: localhost
+  gather_facts: False
+  tasks:
+    - name: Add new dev instances to host group
+      add_host:
+        hostname: "{{ dev_ip }}"
+        groupname: dev
+        ansible_ssh_private_key_file: '~/.ssh/id_rsa'
+        ansible_ssh_user: "root"
+      register: devvars
+    - name: Add new prod instances to host group
+      add_host:
+        hostname: "{{ prod_ip }}"
+        groupname: prod
+        ansible_ssh_private_key_file: '~/.ssh/id_rsa'
+        ansible_ssh_user: "root"
+      register: prodvars
+
+- name: install Dev enviroment
+  hosts: dev
+  become: yes
+  tasks:
+    - name: Ensure Dev-apps are present
+      apt:
+        pkg:
+          - maven
+          - git
+        update_cache: yes
+        state: latest
+    - name: git clone java app
+      git:
+        repo: https://github.com/venkaDaria/puzzle15.git
+        dest: /opt/myapp
+    - name: change pom.xml
+      lineinfile:
+        path: /opt/myapp/pom.xml
+        regexp: '^</project>'
+        line: <properties><maven.compiler.source>1.8</maven.compiler.source><maven.compiler.target>1.8</maven.compiler.target></properties></project>
+    - name: build app
+      command: "mvn war:war"
+      args:
+        chdir: "/opt/myapp/"
+      #when: not app_war.stat.exists
+    - name: Pull war artifact
+      fetch:
+        src: /opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
+        dest: /opt
+
+- name: install Prod enviroment
+  hosts: prod
+  become: yes
+  tasks:
+    - name: Ensure Prod-apps are present
+      apt:
+        pkg:
+          - tomcat9
+        update_cache: yes
+        state: latest
+    - name: Ensure tomcat is started
+      service:
+        name: tomcat9
+        state: started
+    - name: Push war artifact
+      copy:
+        src: /opt/"{{ prod_ip }}"/opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
+        dest: /var/lib/tomcat9/webapps
+
+
+
+
