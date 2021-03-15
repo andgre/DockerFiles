@@ -82,7 +82,9 @@ resource "google_compute_instance" "prod" {
     command = "ansible-playbook -v playbook.yml --extra-vars 'dev_ip=${google_compute_instance.dev.network_interface.0.access_config.0.nat_ip} prod_ip=${google_compute_instance.prod.network_interface.0.access_config.0.nat_ip}'"
   }
 }
-
+output "prod_ip_addr" {
+  value = google_compute_instance.prod.network_interface.0.access_config.0.nat_ip
+}
 /*
 resource "google_compute_instance" "dev" {
  current_status       = "RUNNING"
