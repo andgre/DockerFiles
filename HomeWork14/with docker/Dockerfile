@@ -5,7 +5,6 @@ RUN  apk -U upgrade --update && \
         apk --no-cache add openjdk11 && \
         apk --no-cache add bash
 
-
 ENV TOMCAT_MAJOR=9 \
     TOMCAT_VERSION=9.0.43 \
     CATALINA_HOME=/opt/tomcat
@@ -24,12 +23,11 @@ RUN curl -jkSL -o /tmp/apache-tomcat.tar.gz http://archive.apache.org/dist/tomca
 RUN apk del curl && \
     rm -rf /tmp/* /var/cache/apk/*
 
-COPY find.sh /find.sh
+WORKDIR $CATALINA_HOME
+
+COPY hello-1.0.war /opt/tomcat/webapps/hello-1.0.war
 
 EXPOSE 8080
 
-WORKDIR $CATALINA_HOME
-
-CMD catalina.sh run ; /find.sh
-#ENTRYPOINT ["catalina.sh", "run" ]
+ENTRYPOINT ["catalina.sh", "run" ]
 
