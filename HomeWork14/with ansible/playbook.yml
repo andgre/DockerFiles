@@ -33,6 +33,7 @@
       git:
         repo: https://github.com/venkaDaria/puzzle15.git
         dest: /opt/myapp
+        force: yes
     - name: change pom.xml
       lineinfile:
         path: /opt/myapp/pom.xml
@@ -42,7 +43,6 @@
       command: "mvn war:war"
       args:
         chdir: "/opt/myapp/"
-      #when: not app_war.stat.exists
     - name: Pull war artifact
       fetch:
         src: /opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
@@ -64,7 +64,7 @@
         state: started
     - name: Push war artifact
       copy:
-        src: /opt/"{{ prod_ip }}"/opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
+        src: /opt/{{ dev_ip }}/opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
         dest: /var/lib/tomcat9/webapps
 
 
