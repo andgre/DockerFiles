@@ -1,0 +1,96 @@
+---
+- name: Start
+  hosts: localhost
+  gather_facts: False
+  tasks:
+    - name: Add new dev instances to host group
+      add_host:
+        hostname: "{{ dev_ip }}"
+        groupname: dev
+        ansible_ssh_private_key_file: '~/.ssh/id_rsa'
+        ansible_ssh_user: "root"
+      register: devvars
+    - name: Add new prod instances to host group
+      add_host:
+        hostname: "{{ prod_ip }}"
+        groupname: prod
+        ansible_ssh_private_key_file: '~/.ssh/id_rsa'
+        ansible_ssh_user: "root"
+      register: prodvars
+
+- name: install Dev enviroment
+  hosts: dev
+  become: yes
+  tasks:
+    - name: Ensure Dev-apps are present
+      apt:
+        pkg:
+          - maven
+          - git
+          - rsync
+        update_cache: yes
+        state: latest
+    - name: git clone java app
+      git:
+        repo: https://github.com/venkaDaria/puzzle15.git
+        dest: /opt/myapp
+        force: yes
+    - name: change pom.xml
+      lineinfile:
+        path: /opt/myapp/pom.xml
+        regexp: '^</project>'
+        line: <properties><maven.compiler.source>1.8</maven.compiler.source><maven.compiler.target>1.8</maven.compiler.target></properties></project>
+    - name: build app
+      command: "mvn war:war"
+      args:
+        chdir: "/opt/myapp/"
+    - name: Configure ssh
+      copy:
+        src: '~/.ssh/id_rsa'
+        dest:  '~/.ssh/id_rsa'
+        mode: '0600'
+
+- name: install Prod enviroment
+  hosts: prod
+  become: yes
+  tasks:
+    - name: Ensure Prod-apps are present
+      apt:
+        pkg:
+          - docker.io
+          - python3
+          - python3-pip
+          - rsync
+        update_cache: yes
+        state: latest
+    - name: Pip install docker
+      command: "pip3 install docker"
+    - name: Getting artifact
+      synchronize:
+        mode: push
+        src: /opt/myapp/target/Puzzle15-1.0-SNAPSHOT.war
+        dest: /root/Puzzle15-1.0-SNAPSHOT.war
+      delegate_to: "{{ dev_ip }}"
+    - name: Push Dockerfile
+      copy:
+        src: Dockerfile
+        dest: /root/
+    - name: Build image
+      docker_image:
+        name: prodimg
+        build:
+          path: /root
+        source: build
+        state: present
+    - name: Start docker container
+      docker_container:
+        name: prodcont
+        image: prodimg
+        state: started
+        ports:
+          - "8080:8080"
+
+
+
+
+
