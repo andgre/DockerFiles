@@ -27,6 +27,7 @@
         pkg:
           - maven
           - git
+          - rsync
         update_cache: yes
         state: latest
     - name: git clone java app
