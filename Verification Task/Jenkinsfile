@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    tools {
+        terraform 'terraform'
+    }
+    stages {
+        stage('Git clone') {
+            steps {
+                git credentialsId: '9ca0aa0b-692c-4bd9-a70e-3933625bae8f', url: 'https://github.com/andgre/VerificationTask'
+            }
+        }
+        stage('Terraform init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+        stage('Terraform apply') {
+            steps {
+                sh 'terraform apply --auto-approve'
+            }
+        }
+        stage('Terraform destroy dev') {
+            steps {
+                sh 'terraform destroy -target=google_compute_instance.dev -auto-approve'
+            }
+        }
+    }
+}
