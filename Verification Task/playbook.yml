@@ -28,7 +28,7 @@
           - maven
           - git
           - rsync
-        update_cache: yes
+        update_cache: no
         state: latest
     - name: git clone java app
       git:
@@ -61,7 +61,7 @@
           - python3
           - python3-pip
           - rsync
-        update_cache: yes
+        update_cache: no
         state: latest
     - name: Pip install docker
       command: "pip3 install docker"

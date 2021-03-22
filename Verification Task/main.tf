@@ -24,7 +24,7 @@ resource "google_compute_instance" "dev" {
   }
   provisioner "remote-exec" {
     inline = [
-      "uname -a",
+      "apt update",
     ]
   }
   connection {
@@ -57,7 +57,7 @@ resource "google_compute_instance" "prod" {
   }
   provisioner "remote-exec" {
     inline = [
-      "uname -a",
+      "apt update",
     ]
   }
   connection {
