@@ -58,12 +58,11 @@
       apt:
         pkg:
           - docker.io
-          - python3
           - python3-pip
           - rsync
         update_cache: no
         state: latest
-    - name: Pip install docker
+    - name: Install Docker SDK for Python
       command: "pip3 install docker"
     - name: Getting artifact
       synchronize:
